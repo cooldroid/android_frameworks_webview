@@ -19,6 +19,10 @@
 
 LOCAL_PATH := $(call my-dir)
 
+ifndef PREBUILT_WEBVIEW_VERSION
+    PREBUILT_WEBVIEW_VERSION := stable
+endif
+
 
 # Prebuilt com.google.android.webview apk
 include $(CLEAR_VARS)
@@ -28,12 +32,12 @@ LOCAL_MODULE_TAGS   := optional
 LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
 LOCAL_MODULE_CLASS  := APPS
 LOCAL_CERTIFICATE   := PRESIGNED
-LOCAL_SRC_FILES     := prebuilt/$(TARGET_ARCH)/webview.apk
+LOCAL_SRC_FILES     := prebuilt/$(PREBUILT_WEBVIEW_VERSION)/$(TARGET_ARCH)/webview.apk
 
 ifeq ($(TARGET_IS_64_BIT),true)
      # Primary arch
      $(shell mkdir -p $(TARGET_OUT_SHARED_LIBRARIES))
-     $(shell cp $(LOCAL_PATH)/prebuilt/$(TARGET_ARCH)/$(TARGET_CPU_ABI)/libwebviewchromium.so $(TARGET_OUT_SHARED_LIBRARIES))
+     $(shell cp $(LOCAL_PATH)/prebuilt/$(PREBUILT_WEBVIEW_VERSION)/$(TARGET_ARCH)/$(TARGET_CPU_ABI)/libwebviewchromium.so $(TARGET_OUT_SHARED_LIBRARIES))
 
      $(shell mkdir -p $(TARGET_OUT_APPS)/webview/lib/$(TARGET_ARCH))
      $(shell ln -sf ../../../../lib64/libwebviewchromium.so $(TARGET_OUT_APPS)/webview/lib/$(TARGET_ARCH)/libwebviewchromium.so)
@@ -41,14 +45,14 @@ ifeq ($(TARGET_IS_64_BIT),true)
 
      # Secondary arch
      $(shell mkdir -p $($(TARGET_2ND_ARCH_VAR_PREFIX)TARGET_OUT_SHARED_LIBRARIES))
-     $(shell cp $(LOCAL_PATH)/prebuilt/$(TARGET_ARCH)/$(TARGET_2ND_CPU_ABI)/libwebviewchromium.so $($(TARGET_2ND_ARCH_VAR_PREFIX)TARGET_OUT_SHARED_LIBRARIES))
+     $(shell cp $(LOCAL_PATH)/prebuilt/$(PREBUILT_WEBVIEW_VERSION)/$(TARGET_ARCH)/$(TARGET_2ND_CPU_ABI)/libwebviewchromium.so $($(TARGET_2ND_ARCH_VAR_PREFIX)TARGET_OUT_SHARED_LIBRARIES))
 
      $(shell mkdir -p $(TARGET_OUT_APPS)/webview/lib/$(TARGET_2ND_ARCH))
      $(shell ln -sf ../../../../lib/libwebviewchromium.so $(TARGET_OUT_APPS)/webview/lib/$(TARGET_2ND_ARCH)/libwebviewchromium.so)
      ALL_DEFAULT_INSTALLED_MODULES += $(TARGET_OUT_APPS)/webview/lib/$(TARGET_2ND_ARCH)/libwebviewchromium.so
 else
      $(shell mkdir -p $(TARGET_OUT_SHARED_LIBRARIES))
-     $(shell cp $(LOCAL_PATH)/prebuilt/$(TARGET_ARCH)/libwebviewchromium.so $(TARGET_OUT_SHARED_LIBRARIES))
+     $(shell cp $(LOCAL_PATH)/prebuilt/$(PREBUILT_WEBVIEW_VERSION)/$(TARGET_ARCH)/libwebviewchromium.so $(TARGET_OUT_SHARED_LIBRARIES))
 
      $(shell mkdir -p $(TARGET_OUT_APPS)/webview/lib/$(TARGET_ARCH))
      $(shell ln -sf ../../../../lib/libwebviewchromium.so $(TARGET_OUT_APPS)/webview/lib/$(TARGET_ARCH)/libwebviewchromium.so)
