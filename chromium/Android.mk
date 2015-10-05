@@ -20,7 +20,7 @@
 LOCAL_PATH := $(call my-dir)
 
 ifndef PREBUILT_WEBVIEW_VERSION
-    PREBUILT_WEBVIEW_VERSION := stable
+    PREBUILT_WEBVIEW_VERSION := beta
 endif
 
 
